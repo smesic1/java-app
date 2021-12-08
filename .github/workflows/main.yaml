@@ -70,5 +70,5 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: eu-central-1
         cluster_name: java-cluster
-        args: set image --record deployment/microservice-deployment  microservice-deployment=${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
+        args: set image --record deployment/java-microservice-container  java-microservice-container=${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
 
