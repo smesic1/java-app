@@ -56,3 +56,19 @@ jobs:
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Build and publish java-app container
+      id: kubectl
+      uses: ianbelcher/eks-kubectl-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: eu-central-1
+        cluster_name: java-cluster
+        args: set image --record deployment/java-app ${{java-app=secrets.DOCKER_HUB_USERNAME }}/java-app:latest
+
