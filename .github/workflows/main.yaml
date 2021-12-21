@@ -45,7 +45,7 @@ jobs:
         file: ./Dockerfile
         push: true
         #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha }}
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha::8 }}
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
