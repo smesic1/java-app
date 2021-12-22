@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 env: 
-  TAG: ${GITHUB_SHA:8}
+  TAG: ${{ GITHUB_SHA:8 }}
 
 jobs:
   build:
@@ -50,7 +50,9 @@ jobs:
         file: ./Dockerfile
         push: true
         #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
-        tags: ${{ env.TAG }}
+        tags: ${{ GITHUB_SHA:8 }}
+    - name: Test environment variable
+      run: echo ${{ env.TAG }}
   deploy:
     needs: build-and-publish-docker
     runs-on: ubuntu-latest
