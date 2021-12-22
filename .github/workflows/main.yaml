@@ -57,10 +57,10 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
     - name: Test environment variable
       run: echo ${{ steps.meta.outputs.tags }}
-  deploy:
-    needs: build-and-publish-docker
-    runs-on: ubuntu-latest
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-publish-docker
     steps:
     - name: Test environment variable
       run: echo ${{ needs.build-and-publish-docker.outputs.output1 }}
