@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  REPO: ${{ secrets.DOCKER_REPO }}
+
 jobs:
   build:
 
@@ -26,8 +29,7 @@ jobs:
   build-and-publish-docker:
 
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.meta.outputs.tags }}
+
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v2
@@ -54,16 +56,16 @@ jobs:
         file: ./Dockerfile
         push: true
         #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: $REPO:${GITHUB_SHA::8}
     - name: Test environment variable
-      run: echo ${{ steps.meta.outputs.tags }}
+      run: echo $REPO:${GITHUB_SHA::8}
 
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-publish-docker
     steps:
     - name: Test environment variable
-      run: echo ${{ needs.build-and-publish-docker.steps.meta.outputs.tags }}
+      run: echo $REPO:${GITHUB_SHA::8}
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -77,4 +79,4 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: eu-central-1
         cluster_name: java-cluster
-        args: set image --record deployment/microservice-deployment  java-microservice-container=${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ needs.build-and-publish-docker.outputs.output1 }}
+        args: set image --record deployment/microservice-deployment  java-microservice-container=${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${GITHUB_SHA::8}
