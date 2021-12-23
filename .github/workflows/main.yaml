@@ -53,9 +53,9 @@ jobs:
         file: ./Dockerfile
         push: true
         #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
-        tags: $REPO:${{ GITHUB_SHA::8 }}
+        tags: $REPO:${{ GITHUB_SHA }}
     - name: Test environment variable
-      run: echo $REPO:${{ GITHUB_SHA::8 }}
+      run: echo $REPO:${{ GITHUB_SHA }}
 
   deploy:
     runs-on: ubuntu-latest
