@@ -53,9 +53,9 @@ jobs:
         file: ./Dockerfile
         push: true
         #tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:latest
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha::8 }}
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha:8 }}
     - name: Test environment variable
-      run: echo ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha::8 }}
+      run: echo ${{ secrets.DOCKER_HUB_USERNAME }}/java-app:${{ github.sha:8 }}
 
   deploy:
     runs-on: ubuntu-latest
